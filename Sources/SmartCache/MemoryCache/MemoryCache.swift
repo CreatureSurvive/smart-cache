@@ -1,8 +1,7 @@
 import Foundation
 
 public final class MemoryCache<Key: Hashable, Value> {
-    
-    private let cache = NSCache<WrappedKey, Entry>()
+    public let cache = NSCache<WrappedKey, Entry>()
 
     public let lifetime: TimeInterval?
 
@@ -10,15 +9,14 @@ public final class MemoryCache<Key: Hashable, Value> {
     /// - Parameters:
     ///   - lifetime: Time in seconds. nil - unlimited, default - unlimited
     ///   - maximumCachedValues: Amount of elements to be stored. 0 == unlimited, default - unlimited
-    public init(lifetime: TimeInterval? = nil, maximumCachedValues: Int = 0) {
+    public init(lifetime: TimeInterval? = nil, maximumCachedValues: Int = 0, totalCostLimit: Int = 100) {
         self.lifetime = lifetime
+        cache.totalCostLimit = totalCostLimit
         cache.countLimit = maximumCachedValues
     }
-
 }
 
 extension MemoryCache: Cache {
-
     public func insert(_ value: Value, forKey key: Key) {
         let date = makeExpirationDate()
         let entry = Entry(value: value, expirationDate: date)
@@ -49,5 +47,4 @@ extension MemoryCache: Cache {
             return nil
         }
     }
-
 }

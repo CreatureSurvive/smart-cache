@@ -1,7 +1,6 @@
 import Foundation
 
 extension Data: PersistentCacheValue {
-
     public init(cacheData: Data) {
         self = cacheData
     }
@@ -9,5 +8,4 @@ extension Data: PersistentCacheValue {
     public func cacheData() -> Data {
         self
     }
-
 }

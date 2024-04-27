@@ -1,13 +1,12 @@
 import Foundation
 
 extension MemoryCache {
-
-    final class WrappedKey: NSObject {
+    public final class WrappedKey: NSObject {
         let key: Key
 
-        override var hash: Int { key.hashValue }
+        public override var hash: Int { key.hashValue }
 
-        override func isEqual(_ object: Any?) -> Bool {
+        public override func isEqual(_ object: Any?) -> Bool {
             guard let value = object as? WrappedKey else {
                 return false
             }
@@ -17,7 +16,5 @@ extension MemoryCache {
         init(_ key: Key) {
             self.key = key
         }
-
     }
-
 }

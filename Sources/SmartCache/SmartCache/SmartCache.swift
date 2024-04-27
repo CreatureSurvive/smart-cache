@@ -1,28 +1,26 @@
 import Foundation
 
 public final class SmartCache<Key: Hashable & FilenameConvertible, Value: PersistentCacheValue> {
-
-    private var memoryCache: MemoryCache<Key, Value>
-    private var persistentCache: PersistentCache<Key, Value>
+    var memoryCache: MemoryCache<Key, Value>
+    var persistentCache: PersistentCache<Key, Value>
 
     /// Default Initializer
     /// - Parameters:
     ///   - lifetime: Time in seconds. nil - unlimited, default - nil
     ///   - maximumCachedValues: Amount of elements to be stored. 0 == unlimited, default - unlimited
+    ///   - totalCostLimit: The maximum total cost that the cache can hold before it starts evicting objects.
     ///   - cacheDirectory: URL for storing cache files. Default = System cache directory
-    public init(lifetime: TimeInterval? = nil, maximumCachedValues: Int = 0, cacheDirectory: URL? = nil) {
-        self.memoryCache = .init(lifetime: lifetime, maximumCachedValues: maximumCachedValues)
-        self.persistentCache = .init(cacheDirectory: cacheDirectory)
+    ///   - expiration: The maximum age of items in the cache
+    public init(lifetime: TimeInterval? = nil, maximumCachedValues: Int = 0, totalCostLimit: Int = 100, cacheDirectory: URL? = nil, expiration: TimeInterval = .days(7)) {
+        self.memoryCache = .init(lifetime: lifetime, maximumCachedValues: maximumCachedValues, totalCostLimit: totalCostLimit)
+        self.persistentCache = .init(cacheDirectory: cacheDirectory, expiration: expiration)
     }
-
 }
 
 extension SmartCache: Cache {
-
     public func insert(_ value: Value, forKey key: Key) throws {
         memoryCache[key] = value
         persistentCache[key] = value
-
     }
 
     public func value(forKey key: Key) throws -> Value? {
@@ -40,5 +38,4 @@ extension SmartCache: Cache {
         memoryCache[key] = nil
         persistentCache[key] = nil
     }
-
 }

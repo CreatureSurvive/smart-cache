@@ -8,7 +8,6 @@ public protocol Cache {
     func insert(_ value: Value, forKey key: Key) throws
     func value(forKey key: Key) throws -> Value?
     func removeValue(forKey key: Key) throws
-
 }
 
 extension Cache where Self: AnyObject {

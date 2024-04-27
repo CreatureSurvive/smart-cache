@@ -1,8 +1,7 @@
 import Foundation
 
 extension MemoryCache {
-
-    final class Entry {
+    public final class Entry {
         let value: Value
         let expirationDate: Date?
 
@@ -19,5 +18,4 @@ extension MemoryCache {
             }
         }
     }
-
 }
