@@ -1,8 +1,8 @@
 import Foundation
 
 public final class SmartCache<Key: Hashable & FilenameConvertible, Value: PersistentCacheValue> {
-    var memoryCache: MemoryCache<Key, Value>
-    var persistentCache: PersistentCache<Key, Value>
+    public var memoryCache: MemoryCache<Key, Value>
+    public var persistentCache: PersistentCache<Key, Value>
 
     /// Default Initializer
     /// - Parameters:
